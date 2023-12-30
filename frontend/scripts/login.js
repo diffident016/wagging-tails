@@ -11,8 +11,7 @@ document.getElementById("login-toggle").addEventListener("click", function () {
 // import { useState } from "react";
 // import ReCAPTCHA from "react-google-recaptcha";
 
-// let url = "https://vetspot.onrender.com"
-let url = "http://localhost:27107"
+let url = "https://vetspot.onrender.com"
 
 const loginForm = document.getElementById("login-form");
 
@@ -48,7 +47,6 @@ loginForm.addEventListener("submit", function (event) {
         })
             .then(res => res.json())
             .then(res => {
-                console.log(res);
                 localStorage.setItem("token", res.accessToken)
                 if (res.success) {
                     localStorage.setItem("userDetails", JSON.stringify(res.data))
@@ -97,17 +95,16 @@ signupForm.addEventListener("submit", function (event) {
         })
             .then(res => res.json())
             .then(res => {
-                console.log(res)
                 if (res.success) {
                     Swal.fire(
                         'Good job!',
                         'User Successfully Registered',
                         'success'
                     )
-                    // setTimeout(() => {
-                    //     document.getElementById("signup-form").classList.remove("active");
-                    //     document.getElementById("login-form").classList.add("active");
-                    // }, 1000)
+                    setTimeout(() => {
+                        document.getElementById("signup-form").classList.remove("active");
+                        document.getElementById("login-form").classList.add("active");
+                    }, 1000)
                 } else {
                     errorMessage(res.message)
                 }
@@ -141,7 +138,6 @@ function handleCredentialResponse(response) {
         })
             .then(res => res.json())
             .then(res => {
-                console.log(res);
                 localStorage.setItem("token", res.accessToken)
                 if (res.success) {
                     localStorage.setItem("userDetails", JSON.stringify(res.data))
@@ -166,20 +162,10 @@ function handleCredentialResponse(response) {
     }
 }
 
-// Sign out the user
-function signOut(authID) {
-    // document.getElementsByClassName("pro-data")[0].innerHTML = '';
-    // document.querySelector("#btnWrap").classList.remove("hidden");
-    // document.querySelector(".pro-data").classList.add("hidden");
-}
-
 function checkLoginState() {
     FB.getLoginStatus(function (response) {
         if (response.status === 'connected') {
             FB.api('/me', function (response) {
-
-                console.log(response)
-
                 fetch(`${url}/user/login/facebook`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -187,7 +173,6 @@ function checkLoginState() {
                 })
                     .then(res => res.json())
                     .then(res => {
-                        console.log(res);
                         localStorage.setItem("token", res.accessToken)
                         if (res.success) {
                             localStorage.setItem("userDetails", JSON.stringify(res.data))
